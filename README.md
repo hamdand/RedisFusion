@@ -1,6 +1,6 @@
 # RedisFusion
 
-[![NuGet version](https://badge.fury.io/nu/RedisFusion.svg)](https://badge.fury.io/nu/RedisFusion)
+[![NuGet version](https://badge.fury.io/nu/RedisFusion.svg)](https://github.com/hamdand/RedisFusion)
 
 ## Overview
 
