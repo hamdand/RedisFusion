@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisFusion", "RedisFusion\RedisFusion.csproj", "{CDBB5E0C-3860-492F-B24E-274A1722F569}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisFusion.Sample", "RedisFusion.Sample\RedisFusion.Sample.csproj", "{5166C6B4-699A-4DAF-A7A1-19349153BA05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDBB5E0C-3860-492F-B24E-274A1722F569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDBB5E0C-3860-492F-B24E-274A1722F569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDBB5E0C-3860-492F-B24E-274A1722F569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDBB5E0C-3860-492F-B24E-274A1722F569}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5166C6B4-699A-4DAF-A7A1-19349153BA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5166C6B4-699A-4DAF-A7A1-19349153BA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5166C6B4-699A-4DAF-A7A1-19349153BA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5166C6B4-699A-4DAF-A7A1-19349153BA05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {479C9EEC-5781-434D-BFB6-7C3ACAF3044E}
+	EndGlobalSection
+EndGlobal
