@@ -8,7 +8,6 @@ namespace RedisFusion.Services
     public class RedisFusionService : IRedisFusionService
     {
         private readonly IDistributedCache _cache;
-
         private readonly RedisFusionConfigurations _config;
 
 
@@ -41,6 +40,38 @@ namespace RedisFusion.Services
             }
         }
 
+        public async Task<T> GetOrAddCachedObjectAsync<T>(string key, Func<Task<T>> getItemFunc, TimeSpan duration)
+        {
+
+            if (!_config.IsEnabled)
+            {
+                return await getItemFunc();
+            }
+            var cachedItem = await _cache.GetAsync(key, CancellationToken.None);
+            if (cachedItem != null)
+            {
+                return deserialize<T>(cachedItem);
+            }
+            else
+            {
+                var newItem = await getItemFunc();
+
+                await SetCachedItemAsync(key, newItem, duration);
+
+                return newItem;
+            }
+        }
+
+        public async Task SetCachedItemAsync<T>(string key, T value, TimeSpan duration)
+        {
+            var serializedValue = JsonSerializer.Serialize(value);
+
+            await _cache.SetStringAsync(key, serializedValue, new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = duration
+            });
+        }
+
         public async Task SetCachedItemAsync<T>(string key, T value, int durationInSeconds = 0)
         {
             var serializedValue = JsonSerializer.Serialize(value);
@@ -66,11 +97,6 @@ namespace RedisFusion.Services
             }
 
             return default;
-        }
-
-        private byte[] serialize<T>(T item)
-        {
-            return JsonSerializer.SerializeToUtf8Bytes(item);
         }
 
         private T deserialize<T>(byte[] serializedItem)
