@@ -29,7 +29,15 @@ dotnet add package RedisFusion
     "IsEnabled": true,
     "ConnectionString": "localhost:6379",
     "InstanceName": "MyCollection",
-    "ExpirationTimeSpanInMinutes": 5
+    "ExpirationTimeSpanInMinutes": 5,
+    "AcceptableLanguages": [
+      "en-US",
+      "en",
+      "ar-JO",
+      "ar",
+      "fr-FR",
+      "es-ES"
+    ]
   }
 ```
 

@@ -6,5 +6,7 @@
         public string ConnectionString { get; set; }
         public string? InstanceName { get; set; }
         public int ExpirationTimeSpanInMinutes { get; set; }
+        public List<string> AcceptableLanguages { get; set; } = new List<string> { "en-us" };
+
     }
 }

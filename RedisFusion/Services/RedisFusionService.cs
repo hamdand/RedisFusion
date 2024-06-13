@@ -68,11 +68,6 @@ namespace RedisFusion.Services
             return default;
         }
 
-        private byte[] serialize<T>(T item)
-        {
-            return JsonSerializer.SerializeToUtf8Bytes(item);
-        }
-
         private T deserialize<T>(byte[] serializedItem)
         {
             var result = JsonSerializer.Deserialize<T>(serializedItem);

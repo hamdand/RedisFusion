@@ -26,7 +26,6 @@ namespace RedisFusion.Sample.Controllers
         [RedisFusionOutputCache]
         public async Task<IEnumerable<WeatherForecast>> GetAsAttribute()
         {
-            await Task.Delay(TimeSpan.FromSeconds(5));
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
