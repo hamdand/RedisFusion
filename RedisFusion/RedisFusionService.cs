@@ -27,7 +27,7 @@ namespace RedisFusion
             });
 
             // Register RedisService
-            services.AddSingleton<IRedisFusionService, RedisFusion.Services.RedisFusionService>();
+            services.AddSingleton<IRedisFusionService, Services.RedisFusionService>();
 
             return services;
         }

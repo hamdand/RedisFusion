@@ -2,33 +2,45 @@
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Options;
     using RedisFusion.Services;
     using RedisFusion.Utilities;
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     public class RedisFusionMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IRedisFusionService _cache;
+        private readonly RedisFusionConfigurations _config;
 
-        public RedisFusionMiddleware(RequestDelegate next, IRedisFusionService cache)
+
+        public RedisFusionMiddleware(RequestDelegate next, IRedisFusionService cache, IOptions<RedisFusionConfigurations> config)
         {
             _next = next;
             _cache = cache;
+            _config = config.Value;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
             var endpoint = context.GetEndpoint();
+
             if (endpoint != null)
             {
                 var cacheAttribute = endpoint.Metadata.GetMetadata<RedisFusionOutputCache>();
+
                 if (cacheAttribute != null)
                 {
-                    var key = GenerateCacheKeyFromRequest(context.Request);
+                    // Parse the Accept-Language header
+                    var acceptLanguageHeader = context.Request.Headers["Accept-Language"].ToString();
+
+                    var selectedLanguage = RedisFusionUtilities.ParseSingleLanguage(acceptLanguageHeader, _config.AcceptableLanguages);
+
+                    selectedLanguage = !string.IsNullOrEmpty(selectedLanguage) ? "/" + selectedLanguage : string.Empty;
+
+                    var key = $"{RedisFusionUtilities.GenerateCacheKeyFromRequest(context.Request)}{selectedLanguage}";
+
                     var cachedResponse = await _cache.GetCachedObjectAsync<string>(key);
 
                     if (!string.IsNullOrEmpty(cachedResponse))
@@ -60,26 +72,13 @@
 
             await _next(context);
         }
-
-        private string GenerateCacheKeyFromRequest(HttpRequest request)
-        {
-            var keyBuilder = new StringBuilder();
-            keyBuilder.Append($"{request.Path}");
-
-            foreach (var (key, value) in request.Query.OrderBy(x => x.Key))
-            {
-                keyBuilder.Append($"|{key}-{value}");
-            }
-
-            return keyBuilder.ToString();
-        }
     }
 
     public static class RedisFusionMiddlewareExtensions
     {
         public static IApplicationBuilder UseRedisFusionOutputCache(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<RedisFusionMiddleware>(); 
+            return builder.UseMiddleware<RedisFusionMiddleware>();
         }
     }
 }
